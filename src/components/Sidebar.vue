@@ -35,8 +35,21 @@ function toggleSidebar() {
                 &copy; 2025 <a href="https://github.com/syrauff" class="hover:underline">syrauff</a>. All Rights Reserved.
             </p>
         </div>
-    </div>
 
+    </div>
+    <div class="fixed h-screen z-50 top-0 right-0 flex flex-col justify-center items-center w-20 ">
+        <svg class="w-6 h-6 text-cyan-200 hover:mb-3 hover:w-8 hover:h-8 hover:animate-bounce " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7"/>
+        </svg>
+        <svg class="w-8 h-8 text-cyan-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
+        </svg>
+
+        <svg class="w-6 h-6 text-cyan-200 hover:mt-3 hover:w-8 hover:h-8 hover:animate-bounce " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1"/>
+        </svg>
+    </div>
+    
 </div>
 
 

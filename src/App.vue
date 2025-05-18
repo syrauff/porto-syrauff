@@ -15,7 +15,7 @@ import ContactSection from './components/ContactSection.vue'
     <Sidebar />
 
     <!-- Konten utama -->
-    <main class="ml-16 w-full text-gray-900">
+    <main class="ml-16 w-full">
       <section id="welcome">
         <WelcomeSection />
       </section>
