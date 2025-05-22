@@ -10,12 +10,9 @@ import ContactSection from './components/ContactSection.vue'
 </script>
 
 <template>
-  <div class="flex">
-    <!-- Sidebar -->
-    <Sidebar />
+  <div class="flex bg-slate-950"> <Sidebar />
 
-    <!-- Konten utama -->
-    <main class="ml-16 w-full">
+    <main class="w-full ml-16"> 
       <section id="welcome">
         <WelcomeSection />
       </section>
@@ -36,5 +33,15 @@ import ContactSection from './components/ContactSection.vue'
 </template>
 
 <style scoped>
+/* Jika Anda ingin scroll pada konten utama dan bukan pada body: */
+
+main {
+  height: 100vh;
+  overflow-y: auto;
+}
+.flex {
+  height: 100vh;
+  overflow: hidden; 
+}
 
 </style>
