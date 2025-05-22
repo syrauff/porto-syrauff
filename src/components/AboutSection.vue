@@ -56,7 +56,7 @@ import photo from '../assets/foto.png' // Pastikan path ini benar
           </h3>
           <div class="text-gray-300 text-sm space-y-1.5">
             <p>Saya telah menyelesaikan pendidikan saya di:</p>
-            <ul class="list-none pl-2 space-y-1">
+            <ul class="list-none pl-2 space-y-1 invisible">
               <li class="flex items-start"><span class="text-sky-400 mr-2 shrink-0">▸</span>SD Muhammadiyah Kota Utara</li>
               <li class="flex items-start"><span class="text-sky-400 mr-2 shrink-0">▸</span>MTs. Negeri 1 Kota Gorontalo</li>
               <li class="flex items-start"><span class="text-sky-400 mr-2 shrink-0">▸</span>MAN Insan Cendekia Gorontalo</li>

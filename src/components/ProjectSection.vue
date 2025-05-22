@@ -6,7 +6,7 @@ const projects = ref([
     id: 1,
     title: "Aplikasi Manajemen Armada Galaksi",
     shortTitle: "ArmadaApp",
-    image: "https://images.unsplash.com/photo-1518355079682-BN0 तनसुखलाल_आंजना_के_गाने_MP3_डाउनलोड_लिंक_लाइक_करें_शेयर_करें_और_शेयर_करें_लिंक_शेयर_ करें?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+    image: "https://images.unsplash.com/photo-1518355079682-BN0tan?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
     description: "Sebuah aplikasi web komprehensif untuk melacak dan mengelola armada pesawat ruang angkasa antargalaksi. Dibangun dengan backend Laravel yang kuat, frontend Vue.js yang dinamis, dan styling modern menggunakan Tailwind CSS.",
     link: "#",
     tags: ["Web App", "Manajemen", "Full-stack"],
@@ -30,7 +30,7 @@ const projects = ref([
       { name: "Nuxt.js", icon: "https://nuxtjs.org/logos/nuxt-icon-white.png" },
       { name: "Three.js", icon: "https://threejs.org/files/logo.svg" },
       { name: "Tailwind CSS", icon: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" },
-      { name: "GSAP", icon: "https://greensock.com/ रिक्शा/ रिक्शा-logo.svg" }, // Contoh library animasi
+      { name: "GSAP", icon: "https://greensock.com/gsap-logomark.svg" }, // URL ikon GSAP diperbaiki
       { name: "Vercel", icon: "https://assets.vercel.com/image/upload/front/favicon/vercel/logomark.svg" },
     ],
   },
@@ -45,7 +45,7 @@ const projects = ref([
     tools: [
       { name: "Python", icon: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" },
       { name: "TensorFlow", icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Tensorflow_logo.svg/1200px-Tensorflow_logo.svg.png" },
-      { name: "Miniconda", icon: "https://conda.io/ रिक्शा/_images/conda_logo.svg" }, // Cari logo Miniconda/Anaconda yang sesuai
+      { name: "Miniconda", icon: "https://docs.conda.io/en/latest/_images/conda_logo.svg" }, // URL ikon Conda/Miniconda diperbaiki
       { name: "Pandas", icon: "https://pandas.pydata.org/static/img/pandas.svg" },
       { name: "Matplotlib", icon: "https://matplotlib.org/_static/logo_dark.svg" },
     ],

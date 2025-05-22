@@ -1,8 +1,7 @@
 // ListNav.vue
 <script setup>
 defineProps({
-  items: Array, // Setiap item: { label, href, iconPath }
-  activeItemHref: String // Menerima href dari item yang aktif
+  items: Array // Hanya menerima 'items'
 })
 </script>
 
@@ -13,17 +12,14 @@ defineProps({
       :key="item.label" 
       :href="item.href" 
       :aria-label="item.label"
-      :class="[
-        'relative flex items-center p-3 rounded-md w-full transition-all duration-200 ease-in-out group/item justify-center group-hover:justify-start',
-        item.href === activeItemHref 
-          ? 'bg-purple-600 text-white shadow-lg scale-[1.02] ring-2 ring-purple-400 ring-offset-2 ring-offset-slate-950' // Gaya untuk item aktif
-          : 'text-purple-200/90 hover:bg-purple-700/70 hover:text-purple-50' // Gaya untuk item tidak aktif
-      ]"
-    >
+      class="relative flex items-center p-3 text-purple-200/90 rounded-md hover:bg-purple-700/70 hover:text-purple-50 
+             w-full transition-all duration-200 ease-in-out
+             group/item
+             justify-center group-hover:justify-start"
+      >
       <svg 
         v-if="item.iconPath"
-        class="w-5 h-5 sm:w-6 sm:h-6 shrink-0 stroke-current transition-colors duration-200"
-        :class="item.href === activeItemHref ? 'text-white' : 'group-hover/item:text-purple-100'"
+        class="w-5 h-5 sm:w-6 sm:h-6 shrink-0 stroke-current transition-colors duration-200 group-hover/item:text-purple-100"
         fill="none" 
         viewBox="0 0 24 24" 
         stroke-width="1.5" 
@@ -32,16 +28,14 @@ defineProps({
       >
         <path stroke-linecap="round" stroke-linejoin="round" :d="item.iconPath" />
       </svg>
-      <span v-else class="w-5 h-5 sm:w-6 sm:h-6 shrink-0 flex items-center justify-center text-xs font-bold"
-            :class="item.href === activeItemHref ? 'text-purple-200' : 'text-purple-400'">?</span>
+      <span v-else class="w-5 h-5 sm:w-6 sm:h-6 shrink-0 flex items-center justify-center text-xs font-bold text-purple-400">?</span>
 
       <span 
         class="ml-3 text-sm font-medium whitespace-nowrap
                hidden group-hover:inline-block
                opacity-0 group-hover:opacity-100
                transition-opacity duration-200 delay-150"
-        :class="{'font-semibold': item.href === activeItemHref }"
-      >
+        >
         {{ item.label }}
       </span>
 
@@ -58,6 +52,8 @@ defineProps({
     </a> 
   </div>
 </template>
+
+
 <style scoped>
 /* Tidak ada style tambahan yang diperlukan jika Tailwind sudah benar. */
 </style>

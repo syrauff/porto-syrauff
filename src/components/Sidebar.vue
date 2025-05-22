@@ -1,8 +1,7 @@
-// Sidebar.vue
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue' // computed tidak terpakai, bisa dihapus jika tidak ada case lain
-import ListNav from './ListNav.vue'
-import logoAsset from '../assets/logo.png'
+import { ref, onMounted, onUnmounted } from 'vue';
+import ListNav from './ListNav.vue';
+import logoAsset from '../assets/logo.png';
 
 const barItems = ref([
   { label: 'Welcome', href: '#welcome', iconName: 'home', iconPath: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -13,45 +12,67 @@ const barItems = ref([
 ]);
 
 const sectionElements = ref([]);
+// Inisialisasi activeSectionHref dengan href dari item pertama, jika ada.
 const activeSectionHref = ref(barItems.value.length > 0 ? barItems.value[0].href : '');
 
-// Fungsi yang diperbarui untuk mendapatkan index section aktif
+// Fungsi yang diperbarui dan disederhanakan untuk mendapatkan index section aktif
 function getActiveSectionIndexBasedOnView() {
   if (!sectionElements.value || sectionElements.value.length === 0) {
-    return 0;
+    return 0; // Default jika tidak ada section
   }
 
-  let activeIndex = 0; // Default ke section pertama
-  // Titik fokus di viewport, misalnya 25% dari atas. Section yang paling dekat dengan ini akan dianggap aktif.
-  const focalPointY = window.innerHeight * 0.25; 
-  let minDistanceToFocalPoint = Infinity;
+  // Ambang batas: section dianggap aktif jika puncaknya telah melewati titik ini dari atas viewport.
+  // Anda bisa menyesuaikan nilai ini (misalnya, 0 untuk paling atas, atau nilai positif untuk lebih ke bawah).
+  // Nilai yang lebih besar (misalnya, window.innerHeight * 0.5) akan membuat section aktif saat bagian tengahnya mencapai tengah layar.
+  // Nilai yang lebih kecil (misalnya, 100 atau window.innerHeight * 0.1) akan membuatnya aktif lebih cepat saat di-scroll.
+  const scrollThreshold = window.innerHeight * 0.3; // Mari kita coba 30% dari atas viewport
 
-  sectionElements.value.forEach((section, index) => {
+  let currentActiveIndex = 0; // Default ke section pertama
+
+  // Iterasi dari section pertama ke terakhir
+  for (let i = 0; i < sectionElements.value.length; i++) {
+    const section = sectionElements.value[i];
     if (section) {
       const rect = section.getBoundingClientRect();
-      // Section dianggap kandidat jika setidaknya sebagian ada di viewport
-      const isPartiallyInView = rect.top < window.innerHeight && rect.bottom > 0;
-
-      if (isPartiallyInView) {
-        const distance = Math.abs(rect.top - focalPointY);
-        if (distance < minDistanceToFocalPoint) {
-          minDistanceToFocalPoint = distance;
-          activeIndex = index;
+      // Jika puncak section telah melewati (atau berada di) scrollThreshold,
+      // maka section ini atau salah satu setelahnya adalah yang aktif.
+      // Kita mencari yang *terakhir* yang memenuhi kondisi ini.
+      if (rect.top < scrollThreshold) {
+        currentActiveIndex = i;
+        // Jangan break di sini jika ingin menemukan yang terakhir yang memenuhi.
+        // Jika ingin yang pertama memenuhi, maka break.
+        // Untuk "last one past the line", kita tidak break dan biarkan ia menimpa.
+      } else {
+        // Jika section saat ini puncaknya di bawah threshold, dan kita sudah menemukan
+        // section aktif sebelumnya (currentActiveIndex > 0 atau i > 0), maka section sebelumnya
+        // adalah yang benar-benar aktif. Ini penting jika section berikutnya jauh di bawah.
+        // Namun, untuk logika "last one past the line", kita hanya perlu kondisi di atas.
+        // Jika section pertama sudah di bawah threshold, maka currentActiveIndex akan tetap 0.
+        if (i === 0 && rect.top >= scrollThreshold) {
+             // Kita masih di section pertama dan belum melewati threshold
+             currentActiveIndex = 0;
+        }
+        // Jika section ini di bawah threshold, dan kita sudah melewati section yang memenuhi,
+        // berarti section yang memenuhi sebelumnya adalah yang benar. Jadi kita bisa break.
+        // Ini untuk kasus scroll ke atas.
+        if(rect.top >= scrollThreshold && currentActiveIndex < i) {
+            break;
         }
       }
     }
-  });
-  return activeIndex;
+  }
+  return currentActiveIndex;
 }
+
 
 // Fungsi untuk update href section aktif berdasarkan scroll
 function updateActiveSectionOnScroll() {
-  const currentIndex = getActiveSectionIndexBasedOnView(); // Menggunakan fungsi baru
-  if (barItems.value[currentIndex] && activeSectionHref.value !== barItems.value[currentIndex].href) {
-    activeSectionHref.value = barItems.value[currentIndex].href;
-  } else if (barItems.value.length > 0 && activeSectionHref.value === '' && currentIndex === 0) {
-    // Inisialisasi jika belum ada yang aktif dan section pertama terdeteksi
-    activeSectionHref.value = barItems.value[0].href;
+  const currentIndex = getActiveSectionIndexBasedOnView();
+  if (barItems.value[currentIndex]) {
+    const newActiveHref = barItems.value[currentIndex].href;
+    if (activeSectionHref.value !== newActiveHref) {
+      activeSectionHref.value = newActiveHref;
+    }
   }
 }
 
@@ -63,15 +84,18 @@ function debounce(func, delay) {
     timeout = setTimeout(() => func.apply(this, args), delay);
   };
 }
-const debouncedUpdateActiveSection = debounce(updateActiveSectionOnScroll, 100);
+const debouncedUpdateActiveSection = debounce(updateActiveSectionOnScroll, 50); // Kurangi delay debounce sedikit
 
 onMounted(() => {
   sectionElements.value = barItems.value
     .map(item => item.href && document.getElementById(item.href.substring(1)))
     .filter(el => el !== null);
   
-  window.addEventListener('scroll', debouncedUpdateActiveSection, { passive: true }); // { passive: true } untuk performa
-  updateActiveSectionOnScroll(); // Pengecekan awal
+  // Pastikan ada elemen section sebelum menambahkan listener atau memanggil update
+  if (sectionElements.value.length > 0) {
+    window.addEventListener('scroll', debouncedUpdateActiveSection, { passive: true });
+    updateActiveSectionOnScroll(); // Pengecekan awal
+  }
 });
 
 onUnmounted(() => {
@@ -81,9 +105,10 @@ onUnmounted(() => {
 // Fungsi Navigasi Scroll Kanan (modifikasi untuk update highlight instan)
 function scrollToSection(index, updateActiveImmediately = false) {
   if (sectionElements.value[index]) {
-    sectionElements.value[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const targetSection = sectionElements.value[index];
+    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
     if (updateActiveImmediately && barItems.value[index]) {
-      // Langsung update highlight agar UI terasa lebih responsif saat tombol diklik
       activeSectionHref.value = barItems.value[index].href;
     }
   }
@@ -91,39 +116,31 @@ function scrollToSection(index, updateActiveImmediately = false) {
 
 function scrollToPreviousSection() {
   if (!sectionElements.value.length) return;
-  // Gunakan fungsi yang diupdate untuk mendapatkan index saat ini dengan benar
-  const currentIndex = getActiveSectionIndexBasedOnView(); 
-  const prevIndex = Math.max(0, currentIndex - 1);
+  // Untuk navigasi tombol, kita cari tahu dulu section mana yang saat ini aktif
+  const currentViewIndex = getActiveSectionIndexBasedOnView();
+  let targetIndex = currentViewIndex;
 
-  if (currentIndex === 0 && prevIndex === 0) {
-    // Jika sudah di section pertama, cek apakah benar-benar di puncak halaman
-    // Ini mencegah scroll jika sudah di puncak dan tombol atas ditekan lagi
-    if (sectionElements.value[0] && sectionElements.value[0].getBoundingClientRect().top < -10) { // Beri sedikit toleransi
-         scrollToSection(prevIndex, true);
-    }
+  // Jika section aktif saat ini bukan yang pertama, targetnya adalah sebelumnya
+  if (currentViewIndex > 0) {
+    targetIndex = currentViewIndex - 1;
   } else {
-      scrollToSection(prevIndex, true);
+    targetIndex = 0; // Tetap di section pertama jika sudah di paling atas
   }
+  scrollToSection(targetIndex, true);
 }
 
 function scrollToNextSection() {
   if (!sectionElements.value.length) return;
-  const currentIndex = getActiveSectionIndexBasedOnView();
-  const nextIndex = Math.min(sectionElements.value.length - 1, currentIndex + 1);
+  const currentViewIndex = getActiveSectionIndexBasedOnView();
+  let targetIndex = currentViewIndex;
 
-  if (currentIndex === sectionElements.value.length - 1 && nextIndex === currentIndex) {
-     // Jika sudah di section terakhir, cek apakah benar-benar di bagian bawah halaman
-     if (sectionElements.value[currentIndex]) {
-        const currentRect = sectionElements.value[currentIndex].getBoundingClientRect();
-        const isAtPageBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10; // Toleransi 10px
-        // Cek jika bagian bawah section terakhir masih terlihat di atas bagian bawah viewport
-        if (currentRect.bottom > window.innerHeight + 10 && !isAtPageBottom) { 
-             scrollToSection(nextIndex, true);
-        }
-     }
+  // Jika section aktif saat ini bukan yang terakhir, targetnya adalah berikutnya
+  if (currentViewIndex < sectionElements.value.length - 1) {
+    targetIndex = currentViewIndex + 1;
   } else {
-    scrollToSection(nextIndex, true);
+    targetIndex = sectionElements.value.length - 1; // Tetap di section terakhir
   }
+  scrollToSection(targetIndex, true);
 }
 
 </script>
@@ -139,13 +156,11 @@ function scrollToNextSection() {
       <div class="hidden group-hover:block mb-5 pl-1 transition-opacity duration-300 delay-100">
         <img :src="logoAsset" alt="Logo" class="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full p-1 mb-2">
         <h1 class="text-indigo-100 text-base font-bold leading-tight">
-          Syahrul R. Rauf
+          Syahrul Ridho R. Rauf
         </h1>
         <p class="text-purple-300 text-xs">Portofolio</p>
       </div>
-      
       <ListNav :items="barItems" :active-item-href="activeSectionHref" class="flex-grow" />
-      
       <div class="mt-auto pt-6 text-xs text-purple-400/70">
         <p class="text-center group-hover:text-left group-hover:pl-1">
           &copy; {{ new Date().getFullYear() }} 
@@ -174,6 +189,7 @@ function scrollToNextSection() {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 /* Pastikan text-indigo-100, text-purple-300, dll. sesuai dengan palet warna Anda */
