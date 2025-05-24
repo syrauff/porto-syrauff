@@ -1,12 +1,14 @@
 // ListNav.vue
 <script setup>
 defineProps({
-  items: Array // Hanya menerima 'items'
+  items: Array, // Hanya menerima 'items'
+  activeItemHref: String // Hanya menerima 'activeItemHref'
 })
 // Definisikan emit untuk event klik
 const emit = defineEmits(['item-click']);
 
 function handleItemClick(href) {
+  // event.preventDefault();
   emit('item-click', href);
 }
 </script>

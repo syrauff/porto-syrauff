@@ -49,10 +49,19 @@ onUnmounted(() => {
 });
 
 function scrollToSection(index) {
+  console.log("Mencoba scroll ke index:", index);
+  console.log("Elemen section yang ada:", sectionElements.value);
+  console.log("Item bar yang ada:", barItems.value);
+
   if (sectionElements.value[index] && barItems.value[index]) {
     const targetSection = sectionElements.value[index];
+    console.log("Target Section Ditemukan:", targetSection, "dengan ID:", targetSection.id); // <-- TAMBAHKAN INI
+
     activeSectionHref.value = barItems.value[index].href; // Update highlight
     targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    console.log("scrollIntoView dipanggil untuk:", targetSection.id); // <-- TAMBAHKAN INI
+  } else {
+    console.error("Gagal menemukan target section atau barItem untuk index:", index); // <-- TAMBAHKAN INI
   }
 }
 
@@ -67,14 +76,14 @@ function scrollToPreviousSection() {
   if (!sectionElements.value.length) return;
   const currentViewIndex = getActiveSectionIndexBasedOnView(); 
   let targetIndex = currentViewIndex > 0 ? currentViewIndex - 1 : 0;
-  scrollToSection(targetIndex, true);
+  scrollToSection(targetIndex);
 }
 
 function scrollToNextSection() {
   if (!sectionElements.value.length) return;
   const currentViewIndex = getActiveSectionIndexBasedOnView();
   let targetIndex = currentViewIndex < sectionElements.value.length - 1 ? currentViewIndex + 1 : sectionElements.value.length - 1;
-  scrollToSection(targetIndex, true);
+  scrollToSection(targetIndex);
 }
 </script>
 
