@@ -3,6 +3,12 @@
 defineProps({
   items: Array // Hanya menerima 'items'
 })
+// Definisikan emit untuk event klik
+const emit = defineEmits(['item-click']);
+
+function handleItemClick(href) {
+  emit('item-click', href);
+}
 </script>
 
 <template>
@@ -12,10 +18,12 @@ defineProps({
       :key="item.label" 
       :href="item.href" 
       :aria-label="item.label"
-      class="relative flex items-center p-3 text-purple-200/90 rounded-md hover:bg-purple-700/70 hover:text-purple-50 
-             w-full transition-all duration-200 ease-in-out
-             group/item
-             justify-center group-hover:justify-start"
+      @click.prevent="handleItemClick(item.href)" :class="[
+        'relative flex items-center p-3 rounded-md w-full transition-all duration-200 ease-in-out group/item justify-center group-hover:justify-start',
+        item.href === activeItemHref 
+          ? 'bg-purple-600 text-white shadow-lg scale-[1.02] ring-2 ring-purple-400 ring-offset-2 ring-offset-slate-950' // Gaya item aktif (dikontrol oleh Sidebar.vue)
+          : 'text-purple-200/90 hover:bg-purple-700/70 hover:text-purple-50' 
+      ]"
       >
       <svg 
         v-if="item.iconPath"
