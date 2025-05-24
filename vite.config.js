@@ -8,4 +8,7 @@ export default defineConfig({
     vue(),
     tailwindcss()
   ],
+  base: process.env.NODE_ENV === 'production' 
+    ? '/porto-syrauff/'
+    : '/',
 })
