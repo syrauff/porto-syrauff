@@ -60,11 +60,9 @@ import photo from '../assets/foto.png' // Pastikan path ini benar
               <li class="flex items-start"><span class="text-sky-400 mr-2 shrink-0 text-base">▸</span>SD Muhammadiyah Kota Utara</li>
               <li class="flex items-start"><span class="text-sky-400 mr-2 shrink-0 text-base">▸</span>MTs. Negeri 1 Kota Gorontalo</li>
               <li class="flex items-start"><span class="text-sky-400 mr-2 shrink-0 text-base">▸</span>MAN Insan Cendekia Gorontalo</li>
-            </ul>
-            <p class="mt-3">dan sekarang saya sedang menempuh studi di:</p> 
-            <ul class="list-none pl-2 space-y-1.5">
               <li class="flex items-start"><span class="text-sky-400 mr-2 shrink-0 text-base">▸</span>Universitas Negeri Gorontalo</li>
             </ul>
+            
           </div>
         </div>
         
