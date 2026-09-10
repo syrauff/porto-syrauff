@@ -21,12 +21,12 @@ const props = defineProps({
       { name: 'React / Next.js', icon: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg' },
       { name: 'Node.js / Express', icon: 'https://nodejs.org/static/images/logo.svg' },
       { name: 'Tailwind CSS', icon: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg'},
-      { name: 'Docker', icon: 'https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png' },
+      // { name: 'Docker', icon: 'https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png' },
       { name: 'Git & GitHub', icon: 'https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png' },
       { name: 'SQL / NoSQL DBs', icon: 'https://cdn-icons-png.flaticon.com/512/2906/2906209.png' },
       { name: 'Figma', icon: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg' },
-      { name: 'AWS / GCP', icon: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg'},
-      { name: 'Kubernetes', icon: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg'},
+      // { name: 'AWS / GCP', icon: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg'},
+      // { name: 'Kubernetes', icon: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg'},
     ]
   }
 });
